@@ -2,6 +2,7 @@ package main
 
 import (
 	"be-cp2b/internal"
+	"be-cp2b/internal/router"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"os"
@@ -10,7 +11,9 @@ import (
 func main() {
 	r := gin.Default()
 
-	internal.InitApp()
+	App := internal.InitApp()
+
+	router.InitRouter(r, App)
 
 	port := os.Getenv("APP_PORT")
 	fmt.Println(port)

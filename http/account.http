@@ -1,0 +1,30 @@
+### Tampilkan semua data
+GET http://localhost:8080/api/account
+##
+
+### Tambah data baru
+POST http://localhost:8080/api/account
+Content-Type: application/json
+
+{
+    "name": "BCAAAA",
+    "descriptions": "As ds asd "
+}
+##
+
+### Tampilkan data By ID
+GET http://localhost:8080/api/account/1
+##
+
+### Update data
+PUT http://localhost:8080/api/account/3
+Content-Type: application/json
+
+{
+    "name": "BBBBBBBBBBBBBB"
+}
+##
+
+### Delete data
+DELETE http://localhost:8080/api/account/5
+##
