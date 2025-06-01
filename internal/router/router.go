@@ -3,6 +3,7 @@ package router
 import (
 	"be-cp2b/internal"
 	"be-cp2b/internal/handler"
+	"be-cp2b/internal/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -10,6 +11,7 @@ func InitRouter(r *gin.Engine, app *internal.AppContainer) {
 	accountHandler := handler.NewAccountHandler(app.AccountUsecase)
 	categoryHandler := handler.NewCategoryHandler(app.CategoryUsecase)
 
+	r.Use(middleware.CORSMiddleware())
 	api := r.Group("/api")
 	api.GET("/account", accountHandler.GetAllAccounts)
 	api.POST("/account", accountHandler.CreateAccount)
