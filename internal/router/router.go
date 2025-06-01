@@ -16,15 +16,18 @@ func InitRouter(r *gin.Engine, app *internal.AppContainer) {
 	api := r.Group("/api")
 	api.POST("/login", authHandler.Login)
 
-	api.GET("/account", accountHandler.GetAllAccounts)
-	api.POST("/account", accountHandler.CreateAccount)
-	api.GET("/account/:id", accountHandler.GetAccountByID)
-	api.PUT("/account/:id", accountHandler.UpdateAccount)
-	api.DELETE("/account/:id", accountHandler.DeleteAccount)
+	auth := api.Group("")
+	auth.Use(middleware.AuthMiddleware())
 
-	api.GET("/category", categoryHandler.GetAllCategories)
-	api.POST("/category", categoryHandler.CreateCategory)
-	api.GET("/category/:id", categoryHandler.GetCategoryByID)
-	api.PUT("/category/:id", categoryHandler.UpdateCategory)
-	api.DELETE("/category/:id", categoryHandler.DeleteCategory)
+	auth.GET("/account", accountHandler.GetAllAccounts)
+	auth.POST("/account", accountHandler.CreateAccount)
+	auth.GET("/account/:id", accountHandler.GetAccountByID)
+	auth.PUT("/account/:id", accountHandler.UpdateAccount)
+	auth.DELETE("/account/:id", accountHandler.DeleteAccount)
+
+	auth.GET("/category", categoryHandler.GetAllCategories)
+	auth.POST("/category", categoryHandler.CreateCategory)
+	auth.GET("/category/:id", categoryHandler.GetCategoryByID)
+	auth.PUT("/category/:id", categoryHandler.UpdateCategory)
+	auth.DELETE("/category/:id", categoryHandler.DeleteCategory)
 }

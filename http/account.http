@@ -1,10 +1,12 @@
 ### Tampilkan semua data
 GET http://localhost:8080/api/account
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDg4ODMxOTUsImlhdCI6MTc0ODc5Njc5NSwiaXNzIjoieW91ci1hcHAtbmFtZSIsInN1YiI6MX0.r1GAPqrVRILkxxX9kwpOcG5KfpZ4JPddt_k-kjFh9eM
 ##
 
 ### Tambah data baru
 POST http://localhost:8080/api/account
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDg4ODMxOTUsImlhdCI6MTc0ODc5Njc5NSwiaXNzIjoieW91ci1hcHAtbmFtZSIsInN1YiI6MX0.r1GAPqrVRILkxxX9kwpOcG5KfpZ4JPddt_k-kjFh9eM
 
 {
     "name": "Subagja andaraloji",
@@ -14,12 +16,13 @@ Content-Type: application/json
 
 ### Tampilkan data By ID
 GET http://localhost:8080/api/account/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDg4ODMxOTUsImlhdCI6MTc0ODc5Njc5NSwiaXNzIjoieW91ci1hcHAtbmFtZSIsInN1YiI6MX0.r1GAPqrVRILkxxX9kwpOcG5KfpZ4JPddt_k-kjFh9eM
 ##
 
 ### Update data
 PUT http://localhost:8080/api/account/3
 Content-Type: application/json
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDg4ODMxOTUsImlhdCI6MTc0ODc5Njc5NSwiaXNzIjoieW91ci1hcHAtbmFtZSIsInN1YiI6MX0.r1GAPqrVRILkxxX9kwpOcG5KfpZ4JPddt_k-kjFh9eM
 {
     "name": "BBBBBBBBBBBBBB"
 }
@@ -27,4 +30,5 @@ Content-Type: application/json
 
 ### Delete data
 DELETE http://localhost:8080/api/account/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDg4ODMxOTUsImlhdCI6MTc0ODc5Njc5NSwiaXNzIjoieW91ci1hcHAtbmFtZSIsInN1YiI6MX0.r1GAPqrVRILkxxX9kwpOcG5KfpZ4JPddt_k-kjFh9eM
 ##
