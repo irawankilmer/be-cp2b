@@ -1,0 +1,33 @@
+### Tampilkan semua data
+GET http://localhost:8080/api/category
+##
+
+### Tambah data baru
+POST http://localhost:8080/api/category
+Content-Type: application/json
+
+{
+    "name": "Jajan arloji",
+    "type": "pengeluaran",
+    "descriptions": "Sok jajan kumur - kumur"
+}
+##
+
+### Tampilkan data By ID
+GET http://localhost:8080/api/category/9000
+##
+
+### Update data
+PUT http://localhost:8080/api/category/2
+Content-Type: application/json
+
+{
+    "name": "gaji",
+    "type": "pemasukan",
+    "descriptions": "Gaji kecil sangat"
+}
+##
+
+### Delete data
+DELETE http://localhost:8080/api/category/2
+##

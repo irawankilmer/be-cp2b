@@ -6,4 +6,5 @@ func SeedMain() {
 	db := config.DB
 	SeedUser(db)
 	SeedAccount(db)
+	SeedCategory(db)
 }
