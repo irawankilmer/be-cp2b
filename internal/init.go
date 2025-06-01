@@ -24,8 +24,9 @@ func InitApp() *AppContainer {
 	}
 
 	accountRepo := repository.NewAccountRepository(db)
+	balanceRepo := repository.NewBalanceRepository(db)
 
 	return &AppContainer{
-		AccountUsecase: usecase.NewAccountUsecase(accountRepo),
+		AccountUsecase: usecase.NewAccountUsecase(accountRepo, balanceRepo),
 	}
 }

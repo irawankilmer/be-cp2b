@@ -7,8 +7,8 @@ POST http://localhost:8080/api/account
 Content-Type: application/json
 
 {
-    "name": "",
-    "descriptions": "As ds asd "
+    "name": "Subagja andaraloji",
+    "descriptions": "Edi supono ti jawa barat"
 }
 ##
 
@@ -26,5 +26,5 @@ Content-Type: application/json
 ##
 
 ### Delete data
-DELETE http://localhost:8080/api/account/3
+DELETE http://localhost:8080/api/account/1
 ##

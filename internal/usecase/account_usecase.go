@@ -15,11 +15,18 @@ type AccountUsecase interface {
 }
 
 type accountUsecase struct {
-	repo repository.AccountRepository
+	repo        repository.AccountRepository
+	balanceRepo repository.BalanceRepository
 }
 
-func NewAccountUsecase(r repository.AccountRepository) AccountUsecase {
-	return &accountUsecase{r}
+func NewAccountUsecase(
+	r repository.AccountRepository,
+	b repository.BalanceRepository,
+) AccountUsecase {
+	return &accountUsecase{
+		repo:        r,
+		balanceRepo: b,
+	}
 }
 
 func (u *accountUsecase) GetAll() ([]domain.Account, error) {
@@ -32,8 +39,18 @@ func (u *accountUsecase) Create(req request.AccountRequest) (*domain.Account, er
 		Descriptions: req.Descriptions,
 	}
 
-	err := u.repo.Create(&account)
-	return &account, err
+	if err := u.repo.Create(&account); err != nil {
+		return nil, err
+	}
+
+	balance := domain.Balance{
+		AccountID: account.ID,
+		Balance:   0,
+	}
+
+	_ = u.balanceRepo.Create(&balance)
+
+	return &account, nil
 }
 
 func (u *accountUsecase) GetByID(id uint) (*domain.Account, error) {

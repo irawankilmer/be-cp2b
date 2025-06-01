@@ -29,7 +29,7 @@ func (h *AccountHandler) GetAllAccounts(c *gin.Context) {
 
 func (h *AccountHandler) CreateAccount(c *gin.Context) {
 	var req request.AccountRequest
-	
+
 	if !utils.ValidateInput(c, &req) {
 		return
 	}

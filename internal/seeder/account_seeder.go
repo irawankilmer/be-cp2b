@@ -7,6 +7,7 @@ import (
 
 func SeedAccount(db *gorm.DB) {
 	var account domain.Account
+	var balance domain.Balance
 
 	account = domain.Account{
 		Name:         "BCA",
@@ -14,4 +15,11 @@ func SeedAccount(db *gorm.DB) {
 	}
 
 	db.Create(&account)
+
+	balance = domain.Balance{
+		AccountID: account.ID,
+		Balance:   0,
+	}
+
+	db.Create(&balance)
 }
