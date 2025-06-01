@@ -8,11 +8,14 @@ import (
 )
 
 func InitRouter(r *gin.Engine, app *internal.AppContainer) {
+	authHandler := handler.NewAuthHandler(app.Authusecase)
 	accountHandler := handler.NewAccountHandler(app.AccountUsecase)
 	categoryHandler := handler.NewCategoryHandler(app.CategoryUsecase)
 
 	r.Use(middleware.CORSMiddleware())
 	api := r.Group("/api")
+	api.POST("/login", authHandler.Login)
+
 	api.GET("/account", accountHandler.GetAllAccounts)
 	api.POST("/account", accountHandler.CreateAccount)
 	api.GET("/account/:id", accountHandler.GetAccountByID)

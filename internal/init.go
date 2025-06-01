@@ -10,6 +10,7 @@ import (
 )
 
 type AppContainer struct {
+	Authusecase     usecase.AuthUsecase
 	AccountUsecase  usecase.AccountUsecase
 	CategoryUsecase usecase.CategoryUsecase
 }
@@ -24,11 +25,13 @@ func InitApp() *AppContainer {
 		seeder.SeedMain()
 	}
 
+	authRepo := repository.NewAuthRepository(db)
 	accountRepo := repository.NewAccountRepository(db)
 	balanceRepo := repository.NewBalanceRepository(db)
 	categoryRepo := repository.NewCategoryRepository(db)
 
 	return &AppContainer{
+		Authusecase:     usecase.NewAuthUsecase(authRepo),
 		AccountUsecase:  usecase.NewAccountUsecase(accountRepo, balanceRepo),
 		CategoryUsecase: usecase.NewCategoryUsecase(categoryRepo),
 	}

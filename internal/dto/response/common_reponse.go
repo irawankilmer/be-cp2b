@@ -62,3 +62,12 @@ func ServerError(c *gin.Context, errors interface{}) {
 		Errors:  errors,
 	})
 }
+
+func UnAuthorized(c *gin.Context, errors interface{}, message string) {
+	c.JSON(http.StatusUnauthorized, APIResponse{
+		Code:    http.StatusUnauthorized,
+		Status:  "error",
+		Message: message,
+		Errors:  errors,
+	})
+}
