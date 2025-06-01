@@ -4,6 +4,7 @@ import (
 	"be-cp2b/internal/dto/request"
 	"be-cp2b/internal/dto/response"
 	"be-cp2b/internal/usecase"
+	"be-cp2b/pkg/utils"
 	"github.com/gin-gonic/gin"
 	"strconv"
 )
@@ -28,8 +29,8 @@ func (h *AccountHandler) GetAllAccounts(c *gin.Context) {
 
 func (h *AccountHandler) CreateAccount(c *gin.Context) {
 	var req request.AccountRequest
-	if err := c.ShouldBindJSON(&req); err != nil {
-		response.BadRequest(c, err, "Input tidak valid!")
+	
+	if !utils.ValidateInput(c, &req) {
 		return
 	}
 
