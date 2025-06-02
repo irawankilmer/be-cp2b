@@ -9,6 +9,7 @@ import (
 
 type AuthUsecase interface {
 	Login(req request.AuthRequest) (string, error)
+	Logout(userID uint) error
 }
 
 type authUsecase struct {
@@ -25,7 +26,20 @@ func (u *authUsecase) Login(req request.AuthRequest) (string, error) {
 		return "", errors.New("Email atau password salah!")
 	}
 
-	u.repo.IncrementTokenVersion(user)
+	err = u.repo.UpdateTokenVersion(user.ID)
+	if err != nil {
+		return "", errors.New("Gagal memperbarui roken version")
+	}
+
+	user, err = u.repo.CheckEmail(req.Email)
+	if err != nil {
+		return "", errors.New("Gagal mengambil data user")
+	}
+
 	token, err := utils.GenerateJWT(user.ID, user.TokenVersion)
 	return token, err
+}
+
+func (u *authUsecase) Logout(userID uint) error {
+	return u.repo.UpdateTokenVersion(userID)
 }

@@ -6,3 +6,7 @@ Content-Type: application/json
     "email": "irawankillmer@gmail.com",
     "password": "Ir123085Aa*"
 }
+
+### Logout
+POST http://localhost:8080/api/logout
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDg5NDU4NzgsImlhdCI6MTc0ODg1OTQ3OCwiaXNzIjoiY3AyYiIsInN1YiI6MSwidG9rZW5fdmVyc2lvbiI6ImUwOWY1NGNiLTY4MmUtNDg4OC1iNTZiLTg1NTUxZTg1OGQwNyJ9.X_iP16yBHuWVVEZGH4Sm_lvIthUVNP6cLRxOz10meqI

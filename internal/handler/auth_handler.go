@@ -30,3 +30,21 @@ func (h *AuthHandler) Login(c *gin.Context) {
 
 	response.OK(c, token, "Selamat, Anda berhasil login!")
 }
+
+func (h *AuthHandler) Logout(c *gin.Context) {
+	userIDAny, exists := c.Get("userID")
+	if !exists {
+		response.UnAuthorized(c, "User tidak ditemukan", "")
+		return
+	}
+
+	userID := userIDAny.(uint)
+
+	err := h.usecase.Logout(userID)
+	if err != nil {
+		response.ServerError(c, err.Error())
+		return
+	}
+
+	response.OK(c, "", "Logout berhasil")
+}

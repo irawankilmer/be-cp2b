@@ -19,6 +19,8 @@ func InitRouter(r *gin.Engine, app *internal.AppContainer) {
 	auth := api.Group("")
 	auth.Use(middleware.AuthMiddleware())
 
+	auth.POST("/logout", authHandler.Logout)
+
 	auth.GET("/account", accountHandler.GetAllAccounts)
 	auth.POST("/account", accountHandler.CreateAccount)
 	auth.GET("/account/:id", accountHandler.GetAccountByID)
