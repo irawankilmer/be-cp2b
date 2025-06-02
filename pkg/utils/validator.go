@@ -9,6 +9,10 @@ import (
 	"strings"
 )
 
+type Sanitizable interface {
+	Sanitize() map[string]any
+}
+
 func ValidateInput(c *gin.Context, input interface{}) bool {
 	if err := c.ShouldBindJSON(input); err != nil {
 		var verr validator.ValidationErrors
@@ -22,9 +26,16 @@ func ValidateInput(c *gin.Context, input interface{}) bool {
 				errorMessages[field] = msg
 			}
 
+			var old any
+			if s, ok := input.(Sanitizable); ok {
+				old = s.Sanitize()
+			} else {
+				old = input
+			}
+
 			response.BadRequest(c, gin.H{
 				"errors": errorMessages,
-				"old":    input,
+				"old":    old,
 			}, "Validasi gagal!")
 			return false
 		}

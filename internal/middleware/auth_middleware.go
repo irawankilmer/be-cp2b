@@ -60,7 +60,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Token tidak memiliki identitas pengguna (sub)"})
 			return
 		}
-		
+
 		c.Set("userID", uint(userID))
 		c.Next()
 	}
