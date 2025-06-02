@@ -15,7 +15,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDg4ODMxO
 ##
 
 ### Tampilkan data By ID
-GET http://localhost:8080/api/account/1
+GET http://localhost:8080/api/account/90
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDg4ODMxOTUsImlhdCI6MTc0ODc5Njc5NSwiaXNzIjoieW91ci1hcHAtbmFtZSIsInN1YiI6MX0.r1GAPqrVRILkxxX9kwpOcG5KfpZ4JPddt_k-kjFh9eM
 ##
 
@@ -29,6 +29,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDg4ODMxO
 ##
 
 ### Delete data
-DELETE http://localhost:8080/api/account/1
+DELETE http://localhost:8080/api/account/100
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDg4ODMxOTUsImlhdCI6MTc0ODc5Njc5NSwiaXNzIjoieW91ci1hcHAtbmFtZSIsInN1YiI6MX0.r1GAPqrVRILkxxX9kwpOcG5KfpZ4JPddt_k-kjFh9eM
 ##

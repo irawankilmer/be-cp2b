@@ -20,7 +20,7 @@ func NewCategoryHandler(u usecase.CategoryUsecase) *CategoryHandler {
 func (h *CategoryHandler) GetAllCategories(c *gin.Context) {
 	categories, err := h.usecase.GetAll()
 	if err != nil {
-		response.ServerError(c, err)
+		response.ServerError(c, err.Error())
 		return
 	}
 
@@ -36,7 +36,7 @@ func (h *CategoryHandler) CreateCategory(c *gin.Context) {
 
 	category, err := h.usecase.Create(req)
 	if err != nil {
-		response.ServerError(c, err)
+		response.ServerError(c, err.Error())
 		return
 	}
 
@@ -48,7 +48,7 @@ func (h *CategoryHandler) GetCategoryByID(c *gin.Context) {
 	category, err := h.usecase.GetByID(uint(id))
 
 	if err != nil {
-		response.NotFound(c, err, "Data tidak ditemukan!")
+		response.NotFound(c, err.Error(), "Data tidak ditemukan!")
 		return
 	}
 
@@ -65,7 +65,7 @@ func (h *CategoryHandler) UpdateCategory(c *gin.Context) {
 
 	_, err := h.usecase.Update(uint(id), req)
 	if err != nil {
-		response.NotFound(c, err, "Data tidak ditemukan!")
+		response.NotFound(c, err.Error(), "Data tidak ditemukan!")
 		return
 	}
 
@@ -76,7 +76,7 @@ func (h *CategoryHandler) DeleteCategory(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	err := h.usecase.Delete(uint(id))
 	if err != nil {
-		response.NotFound(c, err, "Data tidak ditemukan!")
+		response.NotFound(c, err.Error(), "Data tidak ditemukan!")
 		return
 	}
 

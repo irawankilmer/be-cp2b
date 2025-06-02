@@ -20,7 +20,7 @@ func NewAccountHandler(u usecase.AccountUsecase) *AccountHandler {
 func (h *AccountHandler) GetAllAccounts(c *gin.Context) {
 	accounts, err := h.usecase.GetAll()
 	if err != nil {
-		response.ServerError(c, err)
+		response.ServerError(c, err.Error())
 		return
 	}
 
@@ -36,7 +36,7 @@ func (h *AccountHandler) CreateAccount(c *gin.Context) {
 
 	account, err := h.usecase.Create(req)
 	if err != nil {
-		response.ServerError(c, err)
+		response.ServerError(c, err.Error())
 		return
 	}
 
@@ -47,7 +47,7 @@ func (h *AccountHandler) GetAccountByID(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	account, err := h.usecase.GetByID(uint(id))
 	if err != nil {
-		response.NotFound(c, err, "Data tidak ditemukan!")
+		response.NotFound(c, err.Error(), "Data tidak ditemukan!")
 		return
 	}
 
@@ -59,13 +59,13 @@ func (h *AccountHandler) UpdateAccount(c *gin.Context) {
 
 	var req request.AccountRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		response.BadRequest(c, err, "Input tidak valid!")
+		response.BadRequest(c, err.Error(), "Input tidak valid!")
 		return
 	}
 
 	_, err := h.usecase.Update(uint(id), req)
 	if err != nil {
-		response.NotFound(c, err, "Data tidak ditemukan!")
+		response.NotFound(c, err.Error(), "Data tidak ditemukan!")
 		return
 	}
 
@@ -76,7 +76,7 @@ func (h *AccountHandler) DeleteAccount(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	err := h.usecase.Delete(uint(id))
 	if err != nil {
-		response.NotFound(c, err, "Data tidak ditemukan!")
+		response.NotFound(c, err.Error(), "Data tidak ditemukan!")
 		return
 	}
 
