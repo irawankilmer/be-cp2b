@@ -7,6 +7,7 @@ import (
 
 type AuthRepository interface {
 	CheckEmail(email string) (*domain.User, error)
+	IncrementTokenVersion(user *domain.User) error
 }
 
 type authRepository struct {
@@ -22,4 +23,9 @@ func (r *authRepository) CheckEmail(email string) (*domain.User, error) {
 	err := r.db.Where("email = ?", email).First(&user).Error
 
 	return &user, err
+}
+
+func (r *authRepository) IncrementTokenVersion(user *domain.User) error {
+	user.TokenVersion++
+	return r.db.Save(user).Error
 }

@@ -1,6 +1,8 @@
 package middleware
 
 import (
+	"be-cp2b/internal/config"
+	"be-cp2b/internal/domain"
 	"net/http"
 	"os"
 	"strings"
@@ -59,6 +61,23 @@ func AuthMiddleware() gin.HandlerFunc {
 		if !ok {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Token tidak memiliki identitas pengguna (sub)"})
 			return
+		}
+
+		tokenVersion, ok := claims["token_version"].(float64)
+		if !ok {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Token tidak memiliki versi"})
+			return
+		}
+
+		var user domain.User
+		db := config.DB
+		if err := db.First(&user, uint(userID)).Error; err != nil {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "User tidak ditemukan"})
+			return
+		}
+
+		if user.TokenVersion != int(tokenVersion) {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Token sudah tidak berlaku, silahkan login lagi"})
 		}
 
 		c.Set("userID", uint(userID))

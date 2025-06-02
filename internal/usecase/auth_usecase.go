@@ -25,6 +25,7 @@ func (u *authUsecase) Login(req request.AuthRequest) (string, error) {
 		return "", errors.New("Email atau password salah!")
 	}
 
-	token, err := utils.GenerateJWT(user.ID)
+	u.repo.IncrementTokenVersion(user)
+	token, err := utils.GenerateJWT(user.ID, user.TokenVersion)
 	return token, err
 }

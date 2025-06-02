@@ -1,12 +1,12 @@
 ### Tampilkan semua data
 GET http://localhost:8080/api/account
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDg4ODMxOTUsImlhdCI6MTc0ODc5Njc5NSwiaXNzIjoieW91ci1hcHAtbmFtZSIsInN1YiI6MX0.r1GAPqrVRILkxxX9kwpOcG5KfpZ4JPddt_k-kjFh9eM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDg5NDA0MDYsImlhdCI6MTc0ODg1NDAwNiwiaXNzIjoiY3AyYiIsInN1YiI6MSwidG9rZW5fdmVyc2lvbiI6M30.P-C6HoTScKsj3OAm7IBd697r5-VjRrMufAbB8Sa-kvM
 ##
 
 ### Tambah data baru
 POST http://localhost:8080/api/account
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDg4ODMxOTUsImlhdCI6MTc0ODc5Njc5NSwiaXNzIjoieW91ci1hcHAtbmFtZSIsInN1YiI6MX0.r1GAPqrVRILkxxX9kwpOcG5KfpZ4JPddt_k-kjFh9eM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDg5NDA0MDYsImlhdCI6MTc0ODg1NDAwNiwiaXNzIjoiY3AyYiIsInN1YiI6MSwidG9rZW5fdmVyc2lvbiI6M30.P-C6HoTScKsj3OAm7IBd697r5-VjRrMufAbB8Sa-kvM
 
 {
     "name": "Subagja andaraloji",
@@ -16,13 +16,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDg4ODMxO
 
 ### Tampilkan data By ID
 GET http://localhost:8080/api/account/90
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDg4ODMxOTUsImlhdCI6MTc0ODc5Njc5NSwiaXNzIjoieW91ci1hcHAtbmFtZSIsInN1YiI6MX0.r1GAPqrVRILkxxX9kwpOcG5KfpZ4JPddt_k-kjFh9eM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDg5NDA0MDYsImlhdCI6MTc0ODg1NDAwNiwiaXNzIjoiY3AyYiIsInN1YiI6MSwidG9rZW5fdmVyc2lvbiI6M30.P-C6HoTScKsj3OAm7IBd697r5-VjRrMufAbB8Sa-kvM
 ##
 
 ### Update data
 PUT http://localhost:8080/api/account/3
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDg4ODMxOTUsImlhdCI6MTc0ODc5Njc5NSwiaXNzIjoieW91ci1hcHAtbmFtZSIsInN1YiI6MX0.r1GAPqrVRILkxxX9kwpOcG5KfpZ4JPddt_k-kjFh9eM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDg5NDA0MDYsImlhdCI6MTc0ODg1NDAwNiwiaXNzIjoiY3AyYiIsInN1YiI6MSwidG9rZW5fdmVyc2lvbiI6M30.P-C6HoTScKsj3OAm7IBd697r5-VjRrMufAbB8Sa-kvM
 {
     "name": "BBBBBBBBBBBBBB"
 }
@@ -30,5 +30,5 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDg4ODMxO
 
 ### Delete data
 DELETE http://localhost:8080/api/account/100
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDg4ODMxOTUsImlhdCI6MTc0ODc5Njc5NSwiaXNzIjoieW91ci1hcHAtbmFtZSIsInN1YiI6MX0.r1GAPqrVRILkxxX9kwpOcG5KfpZ4JPddt_k-kjFh9eM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDg5NDA0MDYsImlhdCI6MTc0ODg1NDAwNiwiaXNzIjoiY3AyYiIsInN1YiI6MSwidG9rZW5fdmVyc2lvbiI6M30.P-C6HoTScKsj3OAm7IBd697r5-VjRrMufAbB8Sa-kvM
 ##

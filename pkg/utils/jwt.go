@@ -6,12 +6,14 @@ import (
 	"time"
 )
 
-func GenerateJWT(userID uint) (string, error) {
+func GenerateJWT(userID uint, tokenversion int) (string, error) {
+	now := time.Now()
 	claims := jwt.MapClaims{
-		"sub": userID,
-		"exp": time.Now().Add(time.Hour * 24).Unix(),
-		"iat": time.Now().Unix(),
-		"iss": os.Getenv("APP_NAME"),
+		"sub":           userID,
+		"token_version": tokenversion,
+		"exp":           now.Add(time.Hour * 24).Unix(),
+		"iat":           now.Unix(),
+		"iss":           os.Getenv("APP_NAME"),
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
