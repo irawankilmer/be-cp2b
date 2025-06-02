@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func GenerateJWT(userID uint, tokenversion int) (string, error) {
+func GenerateJWT(userID uint, tokenversion string) (string, error) {
 	now := time.Now()
 	claims := jwt.MapClaims{
 		"sub":           userID,

@@ -63,7 +63,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		tokenVersion, ok := claims["token_version"].(float64)
+		tokenVersion, ok := claims["token_version"].(string)
 		if !ok {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Token tidak memiliki versi"})
 			return
@@ -76,7 +76,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		if user.TokenVersion != int(tokenVersion) {
+		if user.TokenVersion != tokenVersion {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Token sudah tidak berlaku, silahkan login lagi"})
 		}
 

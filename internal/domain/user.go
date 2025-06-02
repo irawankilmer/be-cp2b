@@ -6,6 +6,6 @@ type User struct {
 	Email           string `gorm:"uniqueIndex;not null"`
 	EmailVerifiedAt string
 	Password        string
-	TokenVersion    int
+	TokenVersion    string
 	TimeStamps
 }

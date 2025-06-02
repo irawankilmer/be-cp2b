@@ -2,6 +2,7 @@ package repository
 
 import (
 	"be-cp2b/internal/domain"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -26,6 +27,7 @@ func (r *authRepository) CheckEmail(email string) (*domain.User, error) {
 }
 
 func (r *authRepository) IncrementTokenVersion(user *domain.User) error {
-	user.TokenVersion++
+	newTokenVersion := uuid.New().String()
+	user.TokenVersion = newTokenVersion
 	return r.db.Save(user).Error
 }
