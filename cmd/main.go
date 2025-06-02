@@ -8,6 +8,17 @@ import (
 	"os"
 )
 
+// Swagger documentation
+// @title BE CP2B - REST API Docs
+// @description Simply cp2b system
+// @version 1.0
+// @BasePath /
+// @schemes http
+// @schemes https
+
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
 func main() {
 	r := gin.Default()
 

@@ -16,6 +16,16 @@ func NewAuthHandler(u usecase.AuthUsecase) *AuthHandler {
 	return &AuthHandler{u}
 }
 
+// Login godoc
+// @Summary Login
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param data body request.AuthRequest true "Login data"
+// @Success 200 {object} response.APIResponse
+// @Failure 400 {object} response.APIResponse
+// @Failure 401 {object} response.APIResponse
+// @Router /api/login [post]
 func (h *AuthHandler) Login(c *gin.Context) {
 	var req request.AuthRequest
 	if !utils.ValidateInput(c, &req) {
@@ -31,6 +41,15 @@ func (h *AuthHandler) Login(c *gin.Context) {
 	response.OK(c, token, "Selamat, Anda berhasil login!")
 }
 
+// Logout godoc
+// @Summary Logout user
+// @Tags Auth
+// @Security BearerAuth
+// @Produce json
+// @Success 200 {object} response.APIResponse
+// @Success 401 {object} response.APIResponse
+// @Success 500 {object} response.APIResponse
+// @Router /api/logout [post]
 func (h *AuthHandler) Logout(c *gin.Context) {
 	userIDAny, exists := c.Get("userID")
 	if !exists {

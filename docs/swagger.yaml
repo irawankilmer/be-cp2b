@@ -1,0 +1,383 @@
+basePath: /
+definitions:
+  request.AccountRequest:
+    properties:
+      descriptions:
+        type: string
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  request.AuthRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  request.CategoryRequest:
+    properties:
+      descriptions:
+        type: string
+      name:
+        type: string
+      type:
+        enum:
+        - pemasukan
+        - pengeluaran
+        - pindah
+        type: string
+    required:
+    - name
+    - type
+    type: object
+  response.APIResponse:
+    properties:
+      code:
+        type: integer
+      data: {}
+      errors: {}
+      message:
+        type: string
+      meta: {}
+      status:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: Simply cp2b system
+  title: BE CP2B - REST API Docs
+  version: "1.0"
+paths:
+  /api/Category/{id}:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Category data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.CategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Update Category
+      tags:
+      - Category
+  /api/account:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/response.APIResponse'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            items:
+              $ref: '#/definitions/response.APIResponse'
+            type: array
+      security:
+      - BearerAuth: []
+      summary: Get all accounts
+      tags:
+      - Account
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Account data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.AccountRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Create new account
+      tags:
+      - Account
+  /api/account/{id}:
+    delete:
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete account
+      tags:
+      - Account
+    get:
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Get account by ID
+      tags:
+      - Account
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Account data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.AccountRequest'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Update account
+      tags:
+      - Account
+  /api/category:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/response.APIResponse'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            items:
+              $ref: '#/definitions/response.APIResponse'
+            type: array
+      security:
+      - BearerAuth: []
+      summary: Get all categories
+      tags:
+      - Category
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Category data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.CategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Create new category
+      tags:
+      - Category
+  /api/category/{id}:
+    delete:
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete category
+      tags:
+      - Category
+    get:
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Get category by ID
+      tags:
+      - Category
+  /api/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Login data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.AuthRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+      summary: Login
+      tags:
+      - Auth
+  /api/logout:
+    post:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Logout user
+      tags:
+      - Auth
+schemes:
+- https
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

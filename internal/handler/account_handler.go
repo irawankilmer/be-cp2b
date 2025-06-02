@@ -17,6 +17,14 @@ func NewAccountHandler(u usecase.AccountUsecase) *AccountHandler {
 	return &AccountHandler{u}
 }
 
+// GetAllAccounts godoc
+// @Summary Get all accounts
+// @Tags Account
+// @Security BearerAuth
+// @Produce json
+// @Success 200 {array} response.APIResponse
+// @Success 500 {array} response.APIResponse
+// @Router /api/account [get]
 func (h *AccountHandler) GetAllAccounts(c *gin.Context) {
 	accounts, err := h.usecase.GetAll()
 	if err != nil {
@@ -27,6 +35,17 @@ func (h *AccountHandler) GetAllAccounts(c *gin.Context) {
 	response.OK(c, accounts, "Semua data berhasil diambil!")
 }
 
+// CreateAccount godoc
+// @Security BearerAuth
+// @Summary Create new account
+// @Tags Account
+// @Accept json
+// @Produce json
+// @Param request body request.AccountRequest true "Account data"
+// @Success 201 {object} response.APIResponse
+// @Failure 400 {object} response.APIResponse
+// @Failure 500 {object} response.APIResponse
+// @Router /api/account [post]
 func (h *AccountHandler) CreateAccount(c *gin.Context) {
 	var req request.AccountRequest
 
@@ -43,6 +62,15 @@ func (h *AccountHandler) CreateAccount(c *gin.Context) {
 	response.Created(c, account, "Data berhasil dibuat!")
 }
 
+// GetAccountByID godoc
+// @Summary Get account by ID
+// @Tags Account
+// @Security BearerAuth
+// @Produce json
+// @Param id path int true "Account ID"
+// @Success 200 {object} response.APIResponse
+// @Failure 404 {object} response.APIResponse
+// @Router /api/account/{id} [get]
 func (h *AccountHandler) GetAccountByID(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	account, err := h.usecase.GetByID(uint(id))
@@ -54,6 +82,18 @@ func (h *AccountHandler) GetAccountByID(c *gin.Context) {
 	response.OK(c, account, "Data ditemukan!")
 }
 
+// UpdateAccount godoc
+// @Summary Update account
+// @Tags Account
+// @Security BearerAuth
+// @Accept json
+// @Produce json
+// @Param id path int true "Account ID"
+// @Param data body request.AccountRequest true "Account data"
+// @Success 204 {object} response.APIResponse
+// @Failure 400 {object} response.APIResponse
+// @Failure 404 {object} response.APIResponse
+// @Router /api/account/{id} [put]
 func (h *AccountHandler) UpdateAccount(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 
@@ -72,6 +112,15 @@ func (h *AccountHandler) UpdateAccount(c *gin.Context) {
 	response.NoContent(c)
 }
 
+// DeleteAccount godoc
+// @Summary Delete account
+// @Tags Account
+// @Security BearerAuth
+// @Produce json
+// @Param id path int true "Account ID"
+// @Success 204 {object} response.APIResponse
+// @Failure 404 {object} response.APIResponse
+// @Router /api/account/{id} [delete]
 func (h *AccountHandler) DeleteAccount(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	err := h.usecase.Delete(uint(id))

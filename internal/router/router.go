@@ -1,10 +1,13 @@
 package router
 
 import (
+	"be-cp2b/docs"
 	"be-cp2b/internal"
 	"be-cp2b/internal/handler"
 	"be-cp2b/internal/middleware"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func InitRouter(r *gin.Engine, app *internal.AppContainer) {
@@ -13,6 +16,9 @@ func InitRouter(r *gin.Engine, app *internal.AppContainer) {
 	categoryHandler := handler.NewCategoryHandler(app.CategoryUsecase)
 
 	r.Use(middleware.CORSMiddleware())
+	docs.SwaggerInfo.Schemes = []string{"http", "https"}
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	api := r.Group("/api")
 	api.POST("/login", authHandler.Login)
 

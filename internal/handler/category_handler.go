@@ -17,6 +17,14 @@ func NewCategoryHandler(u usecase.CategoryUsecase) *CategoryHandler {
 	return &CategoryHandler{u}
 }
 
+// GetAllCategories godoc
+// @Summary Get all categories
+// @Tags Category
+// @Security BearerAuth
+// @Produce json
+// @Success 200 {array} response.APIResponse
+// @Success 500 {array} response.APIResponse
+// @Router /api/category [get]
 func (h *CategoryHandler) GetAllCategories(c *gin.Context) {
 	categories, err := h.usecase.GetAll()
 	if err != nil {
@@ -27,6 +35,17 @@ func (h *CategoryHandler) GetAllCategories(c *gin.Context) {
 	response.OK(c, categories, "Berhasil ambil semua data!")
 }
 
+// CreateCategory godoc
+// @Security BearerAuth
+// @Summary Create new category
+// @Tags Category
+// @Accept json
+// @Produce json
+// @Param request body request.CategoryRequest true "Category data"
+// @Success 201 {object} response.APIResponse
+// @Failure 400 {object} response.APIResponse
+// @Failure 500 {object} response.APIResponse
+// @Router /api/category [post]
 func (h *CategoryHandler) CreateCategory(c *gin.Context) {
 	var req request.CategoryRequest
 
@@ -43,6 +62,15 @@ func (h *CategoryHandler) CreateCategory(c *gin.Context) {
 	response.Created(c, category, "Data berhasil ditambahkan!")
 }
 
+// GetCategoryByID godoc
+// @Summary Get category by ID
+// @Tags Category
+// @Security BearerAuth
+// @Produce json
+// @Param id path int true "Category ID"
+// @Success 200 {object} response.APIResponse
+// @Failure 404 {object} response.APIResponse
+// @Router /api/category/{id} [get]
 func (h *CategoryHandler) GetCategoryByID(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	category, err := h.usecase.GetByID(uint(id))
@@ -55,6 +83,18 @@ func (h *CategoryHandler) GetCategoryByID(c *gin.Context) {
 	response.OK(c, category, "Data berhasil diambil!")
 }
 
+// UpdateCategory godoc
+// @Summary Update Category
+// @Tags Category
+// @Security BearerAuth
+// @Accept json
+// @Produce json
+// @Param id path int true "Category ID"
+// @Param data body request.CategoryRequest true "Category data"
+// @Success 204 {object} response.APIResponse
+// @Failure 400 {object} response.APIResponse
+// @Failure 404 {object} response.APIResponse
+// @Router /api/Category/{id} [put]
 func (h *CategoryHandler) UpdateCategory(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 
@@ -72,6 +112,15 @@ func (h *CategoryHandler) UpdateCategory(c *gin.Context) {
 	response.NoContent(c)
 }
 
+// DeleteCategory godoc
+// @Summary Delete category
+// @Tags Category
+// @Security BearerAuth
+// @Produce json
+// @Param id path int true "Category ID"
+// @Success 204 {object} response.APIResponse
+// @Failure 404 {object} response.APIResponse
+// @Router /api/category/{id} [delete]
 func (h *CategoryHandler) DeleteCategory(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	err := h.usecase.Delete(uint(id))
