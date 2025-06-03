@@ -8,6 +8,9 @@ import (
 type BalanceRepository interface {
 	GetAll() ([]domain.Balance, error)
 	Create(balance *domain.Balance) error
+	GetByID(id uint) (*domain.Balance, error)
+	Tambah(balance *domain.Balance) error
+	Kurang(balance *domain.Balance) error
 }
 
 type balanceRepository struct {
@@ -26,4 +29,18 @@ func (r *balanceRepository) GetAll() ([]domain.Balance, error) {
 
 func (r *balanceRepository) Create(balance *domain.Balance) error {
 	return r.db.Create(balance).Error
+}
+
+func (r *balanceRepository) GetByID(id uint) (*domain.Balance, error) {
+	var balance domain.Balance
+	err := r.db.First(&balance, id).Error
+	return &balance, err
+}
+
+func (r *balanceRepository) Tambah(balance *domain.Balance) error {
+	return r.db.Save(balance).Error
+}
+
+func (r *balanceRepository) Kurang(balance *domain.Balance) error {
+	return r.db.Save(balance).Error
 }

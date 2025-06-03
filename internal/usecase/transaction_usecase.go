@@ -4,6 +4,7 @@ import (
 	"be-cp2b/internal/domain"
 	"be-cp2b/internal/dto/request"
 	"be-cp2b/internal/repository"
+	"errors"
 	"time"
 )
 
@@ -16,11 +17,18 @@ type TransactionUsecase interface {
 }
 
 type transactionUsecase struct {
-	repo repository.TransactionRepository
+	repo           repository.TransactionRepository
+	balanceUsecase BalanceUsecase
 }
 
-func NewTransactionUsecase(r repository.TransactionRepository) TransactionUsecase {
-	return &transactionUsecase{r}
+func NewTransactionUsecase(
+	r repository.TransactionRepository,
+	bu BalanceUsecase,
+) TransactionUsecase {
+	return &transactionUsecase{
+		repo:           r,
+		balanceUsecase: bu,
+	}
 }
 
 func (u *transactionUsecase) GetAll() ([]domain.Transaction, error) {
@@ -44,6 +52,32 @@ func (u *transactionUsecase) Create(req request.TransactionRequest, userID uint)
 
 	if err := u.repo.Create(&transaction); err != nil {
 		return nil, err
+	}
+
+	switch req.Type {
+	case "pemasukan":
+		_, err := u.balanceUsecase.Tambah(req.AccountID, req.Amount)
+		if err != nil {
+			return nil, err
+		}
+	case "pengeluaran":
+		_, err := u.balanceUsecase.Kurang(req.AccountID, req.Amount)
+		if err != nil {
+			return nil, err
+		}
+	case "pindah":
+		_, err := u.balanceUsecase.Kurang(req.AccountID, req.Amount)
+		if err != nil {
+			return nil, err
+		}
+
+		if req.TargetAccountID == nil {
+			return nil, errors.New("Target account id tidak boleh kosong untuk transaksi pindah")
+		}
+		_, eri := u.balanceUsecase.Tambah(*req.TargetAccountID, req.Amount)
+		if eri != nil {
+			return nil, eri
+		}
 	}
 
 	return &transaction, nil

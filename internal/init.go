@@ -33,11 +33,17 @@ func InitApp() *AppContainer {
 	categoryRepo := repository.NewCategoryRepository(db)
 	transactionRepo := repository.NewTransactionRepository(db)
 
+	authUsecase := usecase.NewAuthUsecase(authRepo)
+	accountUsecase := usecase.NewAccountUsecase(accountRepo, balanceRepo)
+	categoryUsecase := usecase.NewCategoryUsecase(categoryRepo)
+	balanceUsecase := usecase.NewBalanceUsecase(balanceRepo)
+	transactionUsecase := usecase.NewTransactionUsecase(transactionRepo, balanceUsecase)
+
 	return &AppContainer{
-		Authusecase:        usecase.NewAuthUsecase(authRepo),
-		AccountUsecase:     usecase.NewAccountUsecase(accountRepo, balanceRepo),
-		CategoryUsecase:    usecase.NewCategoryUsecase(categoryRepo),
-		TransactionUsecase: usecase.NewTransactionUsecase(transactionRepo),
-		BalanceUsecase:     usecase.NewBalanceUsecase(balanceRepo),
+		Authusecase:        authUsecase,
+		AccountUsecase:     accountUsecase,
+		CategoryUsecase:    categoryUsecase,
+		BalanceUsecase:     balanceUsecase,
+		TransactionUsecase: transactionUsecase,
 	}
 }

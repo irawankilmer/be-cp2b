@@ -4,11 +4,14 @@ import (
 	"be-cp2b/internal/domain"
 	"be-cp2b/internal/dto/request"
 	"be-cp2b/internal/repository"
+	"errors"
 )
 
 type BalanceUsecase interface {
 	GetAll() ([]domain.Balance, error)
 	Create(req request.BalanceRequest, accountID uint) (*domain.Balance, error)
+	Tambah(id uint, amount float64) (*domain.Balance, error)
+	Kurang(id uint, amount float64) (*domain.Balance, error)
 }
 
 type balanceUsecase struct {
@@ -31,4 +34,32 @@ func (u *balanceUsecase) Create(req request.BalanceRequest, accountID uint) (*do
 
 	err := u.repo.Create(&balance)
 	return &balance, err
+}
+
+func (u *balanceUsecase) Tambah(id uint, amount float64) (*domain.Balance, error) {
+	balance, err := u.repo.GetByID(id)
+	if err != nil {
+		return nil, err
+	}
+
+	balance.Balance = balance.Balance + amount
+	err = u.repo.Tambah(balance)
+
+	return nil, err
+}
+
+func (u *balanceUsecase) Kurang(id uint, amount float64) (*domain.Balance, error) {
+	balance, err := u.repo.GetByID(id)
+	if err != nil {
+		return nil, err
+	}
+
+	if balance.Balance < amount {
+		return nil, errors.New("Saldo tidak cukup")
+	}
+
+	balance.Balance = balance.Balance - amount
+	err = u.repo.Kurang(balance)
+
+	return nil, err
 }
