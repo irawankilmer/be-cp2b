@@ -11,6 +11,7 @@ type TransactionRepository interface {
 	GetByID(id uint) (*domain.Transaction, error)
 	Update(transaction *domain.Transaction) error
 	Delete(transaction *domain.Transaction) error
+	GetDB() *gorm.DB
 }
 
 type transactionRepository struct {
@@ -50,4 +51,8 @@ func (r *transactionRepository) Update(transaction *domain.Transaction) error {
 
 func (r *transactionRepository) Delete(transaction *domain.Transaction) error {
 	return r.db.Delete(transaction).Error
+}
+
+func (r *transactionRepository) GetDB() *gorm.DB {
+	return r.db
 }

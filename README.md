@@ -1,7 +1,8 @@
 # Catatan Pemasukan dan Pengeluaran Bulanan
 
 ## Update!
- - **Menambahkan dokumentasi API Swagger**
+ - **Semua perubahan saldo dan transaksi disimpan secara bersamaan**
+ - **Jika ada error semua dibatalkan(transaki dan balance)**
 
 
 ## Akses Swag

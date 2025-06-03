@@ -5,13 +5,14 @@ import (
 	"be-cp2b/internal/dto/request"
 	"be-cp2b/internal/repository"
 	"errors"
+	"gorm.io/gorm"
 )
 
 type BalanceUsecase interface {
 	GetAll() ([]domain.Balance, error)
 	Create(req request.BalanceRequest, accountID uint) (*domain.Balance, error)
-	Tambah(id uint, amount float64) (*domain.Balance, error)
-	Kurang(id uint, amount float64) (*domain.Balance, error)
+	Tambah(tx *gorm.DB, accountID uint, amount float64) (*domain.Balance, error)
+	Kurang(tx *gorm.DB, accountID uint, amount float64) (*domain.Balance, error)
 }
 
 type balanceUsecase struct {
@@ -36,19 +37,19 @@ func (u *balanceUsecase) Create(req request.BalanceRequest, accountID uint) (*do
 	return &balance, err
 }
 
-func (u *balanceUsecase) Tambah(id uint, amount float64) (*domain.Balance, error) {
+func (u *balanceUsecase) Tambah(tx *gorm.DB, id uint, amount float64) (*domain.Balance, error) {
 	balance, err := u.repo.GetByID(id)
 	if err != nil {
 		return nil, err
 	}
 
-	balance.Balance = balance.Balance + amount
-	err = u.repo.Tambah(balance)
+	balance.Balance += amount
+	err = tx.Save(balance).Error
 
 	return nil, err
 }
 
-func (u *balanceUsecase) Kurang(id uint, amount float64) (*domain.Balance, error) {
+func (u *balanceUsecase) Kurang(tx *gorm.DB, id uint, amount float64) (*domain.Balance, error) {
 	balance, err := u.repo.GetByID(id)
 	if err != nil {
 		return nil, err
@@ -58,8 +59,8 @@ func (u *balanceUsecase) Kurang(id uint, amount float64) (*domain.Balance, error
 		return nil, errors.New("Saldo tidak cukup")
 	}
 
-	balance.Balance = balance.Balance - amount
-	err = u.repo.Kurang(balance)
+	balance.Balance -= amount
+	err = tx.Save(balance).Error
 
 	return nil, err
 }

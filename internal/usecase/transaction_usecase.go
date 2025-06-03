@@ -36,6 +36,13 @@ func (u *transactionUsecase) GetAll() ([]domain.Transaction, error) {
 }
 
 func (u *transactionUsecase) Create(req request.TransactionRequest, userID uint) (*domain.Transaction, error) {
+	tx := u.repo.GetDB().Begin()
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+		}
+	}()
+
 	// parsing tanggal
 	dateStr := req.Date
 	parseDate, _ := time.Parse("2006-01-02", dateStr)
@@ -50,34 +57,44 @@ func (u *transactionUsecase) Create(req request.TransactionRequest, userID uint)
 		UserID:          userID,
 	}
 
-	if err := u.repo.Create(&transaction); err != nil {
+	if err := tx.Create(&transaction).Error; err != nil {
+		tx.Rollback()
 		return nil, err
 	}
 
 	switch req.Type {
 	case "pemasukan":
-		_, err := u.balanceUsecase.Tambah(req.AccountID, req.Amount)
-		if err != nil {
+		if _, err := u.balanceUsecase.Tambah(tx, req.AccountID, req.Amount); err != nil {
+			tx.Rollback()
 			return nil, err
 		}
 	case "pengeluaran":
-		_, err := u.balanceUsecase.Kurang(req.AccountID, req.Amount)
-		if err != nil {
+		if _, err := u.balanceUsecase.Kurang(tx, req.AccountID, req.Amount); err != nil {
+			tx.Rollback()
 			return nil, err
 		}
 	case "pindah":
-		_, err := u.balanceUsecase.Kurang(req.AccountID, req.Amount)
-		if err != nil {
+		if _, err := u.balanceUsecase.Kurang(tx, req.AccountID, req.Amount); err != nil {
+			tx.Rollback()
 			return nil, err
 		}
 
 		if req.TargetAccountID == nil {
+			tx.Rollback()
 			return nil, errors.New("Target account id tidak boleh kosong untuk transaksi pindah")
 		}
-		_, eri := u.balanceUsecase.Tambah(*req.TargetAccountID, req.Amount)
-		if eri != nil {
+
+		if _, eri := u.balanceUsecase.Tambah(tx, *req.TargetAccountID, req.Amount); eri != nil {
+			tx.Rollback()
 			return nil, eri
 		}
+	default:
+		tx.Rollback()
+		return nil, errors.New("Tipe transaksi tidak valid")
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		return nil, err
 	}
 
 	return &transaction, nil
