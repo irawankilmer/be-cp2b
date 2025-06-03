@@ -14,6 +14,7 @@ type AppContainer struct {
 	AccountUsecase     usecase.AccountUsecase
 	CategoryUsecase    usecase.CategoryUsecase
 	TransactionUsecase usecase.TransactionUsecase
+	BalanceUsecase     usecase.BalanceUsecase
 }
 
 func InitApp() *AppContainer {
@@ -37,5 +38,6 @@ func InitApp() *AppContainer {
 		AccountUsecase:     usecase.NewAccountUsecase(accountRepo, balanceRepo),
 		CategoryUsecase:    usecase.NewCategoryUsecase(categoryRepo),
 		TransactionUsecase: usecase.NewTransactionUsecase(transactionRepo),
+		BalanceUsecase:     usecase.NewBalanceUsecase(balanceRepo),
 	}
 }

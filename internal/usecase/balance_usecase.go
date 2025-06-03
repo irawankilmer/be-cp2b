@@ -7,6 +7,7 @@ import (
 )
 
 type BalanceUsecase interface {
+	GetAll() ([]domain.Balance, error)
 	Create(req request.BalanceRequest, accountID uint) (*domain.Balance, error)
 }
 
@@ -16,6 +17,10 @@ type balanceUsecase struct {
 
 func NewBalanceUsecase(r repository.BalanceRepository) BalanceUsecase {
 	return &balanceUsecase{r}
+}
+
+func (u *balanceUsecase) GetAll() ([]domain.Balance, error) {
+	return u.repo.GetAll()
 }
 
 func (u *balanceUsecase) Create(req request.BalanceRequest, accountID uint) (*domain.Balance, error) {

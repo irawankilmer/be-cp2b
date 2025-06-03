@@ -6,6 +6,7 @@ import (
 )
 
 type BalanceRepository interface {
+	GetAll() ([]domain.Balance, error)
 	Create(balance *domain.Balance) error
 }
 
@@ -15,6 +16,12 @@ type balanceRepository struct {
 
 func NewBalanceRepository(db *gorm.DB) BalanceRepository {
 	return &balanceRepository{db}
+}
+
+func (r *balanceRepository) GetAll() ([]domain.Balance, error) {
+	var balances []domain.Balance
+	err := r.db.Find(&balances).Error
+	return balances, err
 }
 
 func (r *balanceRepository) Create(balance *domain.Balance) error {

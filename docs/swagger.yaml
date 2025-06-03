@@ -250,6 +250,28 @@ paths:
       summary: Update account
       tags:
       - Account
+  /api/balance:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/response.APIResponse'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            items:
+              $ref: '#/definitions/response.APIResponse'
+            type: array
+      security:
+      - BearerAuth: []
+      summary: Get all balances
+      tags:
+      - Balance
   /api/category:
     get:
       produces:
