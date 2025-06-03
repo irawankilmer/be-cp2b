@@ -40,7 +40,7 @@ func ValidateInput(c *gin.Context, input interface{}) bool {
 			return false
 		}
 
-		response.BadRequest(c, "", "Format input tidak valid")
+		response.BadRequest(c, err.Error(), "Format input tidak valid")
 	}
 
 	return true

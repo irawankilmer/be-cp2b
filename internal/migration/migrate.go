@@ -12,6 +12,7 @@ func AutoMigrate(db *gorm.DB) {
 		&domain.Account{},
 		&domain.Balance{},
 		&domain.Category{},
+		&domain.Transaction{},
 	)
 
 	if err != nil {

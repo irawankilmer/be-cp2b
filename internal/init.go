@@ -10,9 +10,10 @@ import (
 )
 
 type AppContainer struct {
-	Authusecase     usecase.AuthUsecase
-	AccountUsecase  usecase.AccountUsecase
-	CategoryUsecase usecase.CategoryUsecase
+	Authusecase        usecase.AuthUsecase
+	AccountUsecase     usecase.AccountUsecase
+	CategoryUsecase    usecase.CategoryUsecase
+	TransactionUsecase usecase.TransactionUsecase
 }
 
 func InitApp() *AppContainer {
@@ -29,10 +30,12 @@ func InitApp() *AppContainer {
 	accountRepo := repository.NewAccountRepository(db)
 	balanceRepo := repository.NewBalanceRepository(db)
 	categoryRepo := repository.NewCategoryRepository(db)
+	transactionRepo := repository.NewTransactionRepository(db)
 
 	return &AppContainer{
-		Authusecase:     usecase.NewAuthUsecase(authRepo),
-		AccountUsecase:  usecase.NewAccountUsecase(accountRepo, balanceRepo),
-		CategoryUsecase: usecase.NewCategoryUsecase(categoryRepo),
+		Authusecase:        usecase.NewAuthUsecase(authRepo),
+		AccountUsecase:     usecase.NewAccountUsecase(accountRepo, balanceRepo),
+		CategoryUsecase:    usecase.NewCategoryUsecase(categoryRepo),
+		TransactionUsecase: usecase.NewTransactionUsecase(transactionRepo),
 	}
 }

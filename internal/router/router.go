@@ -14,6 +14,7 @@ func InitRouter(r *gin.Engine, app *internal.AppContainer) {
 	authHandler := handler.NewAuthHandler(app.Authusecase)
 	accountHandler := handler.NewAccountHandler(app.AccountUsecase)
 	categoryHandler := handler.NewCategoryHandler(app.CategoryUsecase)
+	transactionHandler := handler.NewTransactionHandler(app.TransactionUsecase)
 
 	r.Use(middleware.CORSMiddleware())
 	docs.SwaggerInfo.Schemes = []string{"http", "https"}
@@ -38,4 +39,10 @@ func InitRouter(r *gin.Engine, app *internal.AppContainer) {
 	auth.GET("/category/:id", categoryHandler.GetCategoryByID)
 	auth.PUT("/category/:id", categoryHandler.UpdateCategory)
 	auth.DELETE("/category/:id", categoryHandler.DeleteCategory)
+
+	auth.GET("/transaction", transactionHandler.GetAllTransactions)
+	auth.POST("/transaction", transactionHandler.CreateTransaction)
+	auth.GET("/transaction/:id", transactionHandler.GetTransactionByID)
+	auth.PUT("/transaction/:id", transactionHandler.UpdateTransaction)
+	auth.DELETE("/transaction/:id", transactionHandler.DeleteTransaction)
 }

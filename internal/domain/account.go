@@ -4,5 +4,6 @@ type Account struct {
 	ID           uint   `gorm:"primaryKey"`
 	Name         string `gorm:"uniqueIndex;not null"`
 	Descriptions string `gorm:"type:text"`
+	Transactions []Transaction
 	TimeStamps
 }

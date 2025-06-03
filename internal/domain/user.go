@@ -7,5 +7,6 @@ type User struct {
 	EmailVerifiedAt string
 	Password        string
 	TokenVersion    string
+	Transactions    []Transaction
 	TimeStamps
 }
