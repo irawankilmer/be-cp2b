@@ -23,7 +23,9 @@ func NewAccountRepository(db *gorm.DB) AccountRepository {
 
 func (r *accountRepository) GetAll() ([]domain.Account, error) {
 	var accounts []domain.Account
-	err := r.db.Find(&accounts).Error
+	err := r.db.
+		Preload("Balance").
+		Find(&accounts).Error
 	return accounts, err
 }
 
@@ -33,7 +35,9 @@ func (r *accountRepository) Create(account *domain.Account) error {
 
 func (r *accountRepository) GetByID(id uint) (*domain.Account, error) {
 	var account domain.Account
-	err := r.db.First(&account, id).Error
+	err := r.db.
+		Preload("Balance").
+		First(&account, id).Error
 	return &account, err
 }
 

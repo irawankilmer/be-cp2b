@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"be-cp2b/internal/dto/mapper"
 	"be-cp2b/internal/dto/request"
 	"be-cp2b/internal/dto/response"
 	"be-cp2b/internal/usecase"
@@ -22,7 +23,7 @@ func NewAccountHandler(u usecase.AccountUsecase) *AccountHandler {
 // @Tags Account
 // @Security BearerAuth
 // @Produce json
-// @Success 200 {array} response.APIResponse
+// @Success 200 {array} response.AccountListSwaggerResponse
 // @Success 500 {array} response.APIResponse
 // @Router /api/account [get]
 func (h *AccountHandler) GetAllAccounts(c *gin.Context) {
@@ -32,7 +33,12 @@ func (h *AccountHandler) GetAllAccounts(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, accounts, "Semua data berhasil diambil!")
+	var responseData []response.AccountResponse
+	for _, t := range accounts {
+		responseData = append(responseData, mapper.MapAccountToDTO(t))
+	}
+
+	response.OK(c, responseData, "Semua data berhasil diambil!")
 }
 
 // CreateAccount godoc
@@ -42,7 +48,7 @@ func (h *AccountHandler) GetAllAccounts(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param request body request.AccountRequest true "Account data"
-// @Success 201 {object} response.APIResponse
+// @Success 201 {object} response.AccountListSwaggerResponse
 // @Failure 400 {object} response.APIResponse
 // @Failure 500 {object} response.APIResponse
 // @Router /api/account [post]
@@ -59,7 +65,8 @@ func (h *AccountHandler) CreateAccount(c *gin.Context) {
 		return
 	}
 
-	response.Created(c, account, "Data berhasil dibuat!")
+	responseData := mapper.MapAccountToDTO(*account)
+	response.Created(c, responseData, "Data berhasil dibuat!")
 }
 
 // GetAccountByID godoc
@@ -68,7 +75,7 @@ func (h *AccountHandler) CreateAccount(c *gin.Context) {
 // @Security BearerAuth
 // @Produce json
 // @Param id path int true "Account ID"
-// @Success 200 {object} response.APIResponse
+// @Success 200 {object} response.AccountListSwaggerResponse
 // @Failure 404 {object} response.APIResponse
 // @Router /api/account/{id} [get]
 func (h *AccountHandler) GetAccountByID(c *gin.Context) {
@@ -79,7 +86,8 @@ func (h *AccountHandler) GetAccountByID(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, account, "Data ditemukan!")
+	responseData := mapper.MapAccountToDTO(*account)
+	response.OK(c, responseData, "Data ditemukan!")
 }
 
 // UpdateAccount godoc

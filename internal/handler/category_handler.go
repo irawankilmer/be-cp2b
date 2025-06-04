@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"be-cp2b/internal/dto/mapper"
 	"be-cp2b/internal/dto/request"
 	"be-cp2b/internal/dto/response"
 	"be-cp2b/internal/usecase"
@@ -22,7 +23,7 @@ func NewCategoryHandler(u usecase.CategoryUsecase) *CategoryHandler {
 // @Tags Category
 // @Security BearerAuth
 // @Produce json
-// @Success 200 {array} response.APIResponse
+// @Success 200 {array} response.CategoryListSwaggerResponse
 // @Success 500 {array} response.APIResponse
 // @Router /api/category [get]
 func (h *CategoryHandler) GetAllCategories(c *gin.Context) {
@@ -32,7 +33,12 @@ func (h *CategoryHandler) GetAllCategories(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, categories, "Berhasil ambil semua data!")
+	var responseData []response.CategoryResponse
+	for _, t := range categories {
+		responseData = append(responseData, mapper.MapCategoryToDTO(t))
+	}
+
+	response.OK(c, responseData, "Berhasil ambil semua data!")
 }
 
 // CreateCategory godoc
@@ -42,7 +48,7 @@ func (h *CategoryHandler) GetAllCategories(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param request body request.CategoryRequest true "Category data"
-// @Success 201 {object} response.APIResponse
+// @Success 201 {object} response.CategoryListSwaggerResponse
 // @Failure 400 {object} response.APIResponse
 // @Failure 500 {object} response.APIResponse
 // @Router /api/category [post]
@@ -59,7 +65,8 @@ func (h *CategoryHandler) CreateCategory(c *gin.Context) {
 		return
 	}
 
-	response.Created(c, category, "Data berhasil ditambahkan!")
+	responseData := mapper.MapCategoryToDTO(*category)
+	response.Created(c, responseData, "Data berhasil ditambahkan!")
 }
 
 // GetCategoryByID godoc
@@ -68,7 +75,7 @@ func (h *CategoryHandler) CreateCategory(c *gin.Context) {
 // @Security BearerAuth
 // @Produce json
 // @Param id path int true "Category ID"
-// @Success 200 {object} response.APIResponse
+// @Success 200 {object} response.CategoryListSwaggerResponse
 // @Failure 404 {object} response.APIResponse
 // @Router /api/category/{id} [get]
 func (h *CategoryHandler) GetCategoryByID(c *gin.Context) {
@@ -80,7 +87,8 @@ func (h *CategoryHandler) GetCategoryByID(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, category, "Data berhasil diambil!")
+	responseData := mapper.MapCategoryToDTO(*category)
+	response.OK(c, responseData, "Data berhasil diambil!")
 }
 
 // UpdateCategory godoc

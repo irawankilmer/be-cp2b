@@ -20,7 +20,7 @@ func NewBalanceHandler(u usecase.BalanceUsecase) *BalanceHandler {
 // @Tags Balance
 // @Security BearerAuth
 // @Produce json
-// @Success 200 {array} response.TransactionListSwaggerResponse
+// @Success 200 {array} response.BalanceListSwaggerResponse
 // @Success 500 {array} response.APIResponse
 // @Router /api/balance [get]
 func (h *BalanceHandler) GetAllBalances(c *gin.Context) {

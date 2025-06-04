@@ -7,6 +7,13 @@ definitions:
       Name:
         type: string
     type: object
+  dto.BalanceDTO:
+    properties:
+      Balance:
+        type: number
+      ID:
+        type: integer
+    type: object
   dto.CategoryDTO:
     properties:
       id:
@@ -93,6 +100,74 @@ definitions:
         type: string
       meta: {}
       status:
+        type: string
+    type: object
+  response.AccountListSwaggerResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/response.AccountResponse'
+        type: array
+      message:
+        type: string
+    type: object
+  response.AccountResponse:
+    properties:
+      Balance:
+        $ref: '#/definitions/dto.BalanceDTO'
+      BalanceID:
+        type: integer
+      Descriptions:
+        type: string
+      ID:
+        type: integer
+      Name:
+        type: string
+    type: object
+  response.BalanceListSwaggerResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/response.BalanceResponse'
+        type: array
+      message:
+        type: string
+    type: object
+  response.BalanceResponse:
+    properties:
+      Account:
+        $ref: '#/definitions/dto.AccountDTO'
+      AccountID:
+        type: integer
+      Balance:
+        type: number
+      ID:
+        type: integer
+    type: object
+  response.CategoryListSwaggerResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/response.CategoryResponse'
+        type: array
+      message:
+        type: string
+    type: object
+  response.CategoryResponse:
+    properties:
+      Descriptions:
+        type: string
+      ID:
+        type: integer
+      Name:
+        type: string
+      Type:
         type: string
     type: object
   response.TransactionListSwaggerResponse:
@@ -186,7 +261,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/response.APIResponse'
+              $ref: '#/definitions/response.AccountListSwaggerResponse'
             type: array
         "500":
           description: Internal Server Error
@@ -215,7 +290,7 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/response.APIResponse'
+            $ref: '#/definitions/response.AccountListSwaggerResponse'
         "400":
           description: Bad Request
           schema:
@@ -266,7 +341,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.APIResponse'
+            $ref: '#/definitions/response.AccountListSwaggerResponse'
         "404":
           description: Not Found
           schema:
@@ -320,7 +395,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/response.TransactionListSwaggerResponse'
+              $ref: '#/definitions/response.BalanceListSwaggerResponse'
             type: array
         "500":
           description: Internal Server Error
@@ -342,7 +417,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/response.APIResponse'
+              $ref: '#/definitions/response.CategoryListSwaggerResponse'
             type: array
         "500":
           description: Internal Server Error
@@ -371,7 +446,7 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/response.APIResponse'
+            $ref: '#/definitions/response.CategoryListSwaggerResponse'
         "400":
           description: Bad Request
           schema:
@@ -422,7 +497,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.APIResponse'
+            $ref: '#/definitions/response.CategoryListSwaggerResponse'
         "404":
           description: Not Found
           schema:

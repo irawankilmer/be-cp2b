@@ -14,3 +14,8 @@ type UserDTO struct {
 	ID   uint   `json:"ID"`
 	Name string `json:"Name"`
 }
+
+type BalanceDTO struct {
+	ID      uint    `json:"ID"`
+	Balance float64 `json:"Balance"`
+}

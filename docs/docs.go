@@ -92,7 +92,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/response.APIResponse"
+                                "$ref": "#/definitions/response.AccountListSwaggerResponse"
                             }
                         }
                     },
@@ -138,7 +138,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.APIResponse"
+                            "$ref": "#/definitions/response.AccountListSwaggerResponse"
                         }
                     },
                     "400": {
@@ -183,7 +183,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.APIResponse"
+                            "$ref": "#/definitions/response.AccountListSwaggerResponse"
                         }
                     },
                     "404": {
@@ -307,7 +307,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/response.TransactionListSwaggerResponse"
+                                "$ref": "#/definitions/response.BalanceListSwaggerResponse"
                             }
                         }
                     },
@@ -343,7 +343,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/response.APIResponse"
+                                "$ref": "#/definitions/response.CategoryListSwaggerResponse"
                             }
                         }
                     },
@@ -389,7 +389,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.APIResponse"
+                            "$ref": "#/definitions/response.CategoryListSwaggerResponse"
                         }
                     },
                     "400": {
@@ -434,7 +434,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.APIResponse"
+                            "$ref": "#/definitions/response.CategoryListSwaggerResponse"
                         }
                     },
                     "404": {
@@ -792,6 +792,17 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.BalanceDTO": {
+            "type": "object",
+            "properties": {
+                "Balance": {
+                    "type": "number"
+                },
+                "ID": {
+                    "type": "integer"
+                }
+            }
+        },
         "dto.CategoryDTO": {
             "type": "object",
             "properties": {
@@ -917,6 +928,111 @@ const docTemplate = `{
                 },
                 "meta": {},
                 "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.AccountListSwaggerResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.AccountResponse"
+                    }
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.AccountResponse": {
+            "type": "object",
+            "properties": {
+                "Balance": {
+                    "$ref": "#/definitions/dto.BalanceDTO"
+                },
+                "BalanceID": {
+                    "type": "integer"
+                },
+                "Descriptions": {
+                    "type": "string"
+                },
+                "ID": {
+                    "type": "integer"
+                },
+                "Name": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.BalanceListSwaggerResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.BalanceResponse"
+                    }
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.BalanceResponse": {
+            "type": "object",
+            "properties": {
+                "Account": {
+                    "$ref": "#/definitions/dto.AccountDTO"
+                },
+                "AccountID": {
+                    "type": "integer"
+                },
+                "Balance": {
+                    "type": "number"
+                },
+                "ID": {
+                    "type": "integer"
+                }
+            }
+        },
+        "response.CategoryListSwaggerResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.CategoryResponse"
+                    }
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.CategoryResponse": {
+            "type": "object",
+            "properties": {
+                "Descriptions": {
+                    "type": "string"
+                },
+                "ID": {
+                    "type": "integer"
+                },
+                "Name": {
+                    "type": "string"
+                },
+                "Type": {
                     "type": "string"
                 }
             }

@@ -5,6 +5,5 @@ type Category struct {
 	Name         string `gorm:"uniqueIndex" json:"name"`
 	Type         string `gorm:"type:enum('pemasukan','pengeluaran','pindah');default:'pemasukan'" json:"type"`
 	Descriptions string `gorm:"type:text" json:"descriptions"`
-	Transactions []Transaction
 	TimeStamps
 }
