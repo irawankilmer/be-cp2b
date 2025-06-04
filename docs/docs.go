@@ -307,7 +307,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/response.APIResponse"
+                                "$ref": "#/definitions/response.TransactionListSwaggerResponse"
                             }
                         }
                     },
@@ -584,7 +584,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/response.APIResponse"
+                                "$ref": "#/definitions/response.TransactionListSwaggerResponse"
                             }
                         }
                     },
@@ -630,7 +630,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/response.APIResponse"
+                            "$ref": "#/definitions/response.TransactionListSwaggerResponse"
                         }
                     },
                     "400": {
@@ -675,7 +675,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.APIResponse"
+                            "$ref": "#/definitions/response.TransactionListSwaggerResponse"
                         }
                     },
                     "404": {
@@ -781,6 +781,39 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "dto.AccountDTO": {
+            "type": "object",
+            "properties": {
+                "ID": {
+                    "type": "integer"
+                },
+                "Name": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CategoryDTO": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.UserDTO": {
+            "type": "object",
+            "properties": {
+                "ID": {
+                    "type": "integer"
+                },
+                "Name": {
+                    "type": "string"
+                }
+            }
+        },
         "request.AccountRequest": {
             "type": "object",
             "required": [
@@ -885,6 +918,67 @@ const docTemplate = `{
                 "meta": {},
                 "status": {
                     "type": "string"
+                }
+            }
+        },
+        "response.TransactionListSwaggerResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.TransactionResponse"
+                    }
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.TransactionResponse": {
+            "type": "object",
+            "properties": {
+                "Account": {
+                    "$ref": "#/definitions/dto.AccountDTO"
+                },
+                "AccountID": {
+                    "type": "integer"
+                },
+                "Amount": {
+                    "type": "number"
+                },
+                "Category": {
+                    "$ref": "#/definitions/dto.CategoryDTO"
+                },
+                "CategoryID": {
+                    "type": "integer"
+                },
+                "Date": {
+                    "type": "string"
+                },
+                "Descriptions": {
+                    "type": "string"
+                },
+                "ID": {
+                    "type": "integer"
+                },
+                "TargetAccount": {
+                    "$ref": "#/definitions/dto.AccountDTO"
+                },
+                "TargetAccountID": {
+                    "type": "integer"
+                },
+                "Type": {
+                    "type": "string"
+                },
+                "User": {
+                    "$ref": "#/definitions/dto.UserDTO"
+                },
+                "UserID": {
+                    "type": "integer"
                 }
             }
         }

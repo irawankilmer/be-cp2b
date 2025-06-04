@@ -38,7 +38,7 @@ func (u *balanceUsecase) Create(req request.BalanceRequest, accountID uint) (*do
 }
 
 func (u *balanceUsecase) Tambah(tx *gorm.DB, id uint, amount float64) (*domain.Balance, error) {
-	balance, err := u.repo.GetByID(id)
+	balance, err := u.repo.GetByAccountID(id)
 	if err != nil {
 		return nil, err
 	}
@@ -50,7 +50,7 @@ func (u *balanceUsecase) Tambah(tx *gorm.DB, id uint, amount float64) (*domain.B
 }
 
 func (u *balanceUsecase) Kurang(tx *gorm.DB, id uint, amount float64) (*domain.Balance, error) {
-	balance, err := u.repo.GetByID(id)
+	balance, err := u.repo.GetByAccountID(id)
 	if err != nil {
 		return nil, err
 	}

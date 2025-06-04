@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"be-cp2b/internal/dto/mapper"
 	"be-cp2b/internal/dto/request"
 	"be-cp2b/internal/dto/response"
 	"be-cp2b/internal/usecase"
@@ -22,7 +23,7 @@ func NewTransactionHandler(u usecase.TransactionUsecase) *TransactionHandler {
 // @Tags Transaction
 // @Security BearerAuth
 // @Produce json
-// @Success 200 {array} response.APIResponse
+// @Success 200 {array} response.TransactionListSwaggerResponse
 // @Success 500 {array} response.APIResponse
 // @Router /api/transaction [get]
 func (h *TransactionHandler) GetAllTransactions(c *gin.Context) {
@@ -32,7 +33,12 @@ func (h *TransactionHandler) GetAllTransactions(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, transactions, "Data berhasil diambil!")
+	var responseData []response.TransactionResponse
+	for _, t := range transactions {
+		responseData = append(responseData, mapper.MapTransactionToDTO(t))
+	}
+
+	response.OK(c, responseData, "Query OK!")
 }
 
 // CreateTransaction godoc
@@ -42,7 +48,7 @@ func (h *TransactionHandler) GetAllTransactions(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param request body request.TransactionRequest true "Transaction data"
-// @Success 201 {object} response.APIResponse
+// @Success 201 {object} response.TransactionListSwaggerResponse
 // @Failure 400 {object} response.APIResponse
 // @Failure 500 {object} response.APIResponse
 // @Router /api/transaction [post]
@@ -59,7 +65,8 @@ func (h *TransactionHandler) CreateTransaction(c *gin.Context) {
 		return
 	}
 
-	response.Created(c, transaction, "Data berhasil ditambahkan")
+	responseData := mapper.MapTransactionToDTO(*transaction)
+	response.Created(c, responseData, "Data berhasil ditambahkan")
 }
 
 // GetTransactionByID godoc
@@ -68,7 +75,7 @@ func (h *TransactionHandler) CreateTransaction(c *gin.Context) {
 // @Security BearerAuth
 // @Produce json
 // @Param id path int true "Transaction ID"
-// @Success 200 {object} response.APIResponse
+// @Success 200 {object} response.TransactionListSwaggerResponse
 // @Failure 404 {object} response.APIResponse
 // @Router /api/transaction/{id} [get]
 func (h *TransactionHandler) GetTransactionByID(c *gin.Context) {
@@ -79,7 +86,8 @@ func (h *TransactionHandler) GetTransactionByID(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, transaction, "Data berhasil diambil!")
+	responseData := mapper.MapTransactionToDTO(*transaction)
+	response.OK(c, responseData, "Data berhasil diambil!")
 }
 
 // UpdateTransaction godoc

@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"be-cp2b/internal/dto/mapper"
 	"be-cp2b/internal/dto/response"
 	"be-cp2b/internal/usecase"
 	"github.com/gin-gonic/gin"
@@ -19,7 +20,7 @@ func NewBalanceHandler(u usecase.BalanceUsecase) *BalanceHandler {
 // @Tags Balance
 // @Security BearerAuth
 // @Produce json
-// @Success 200 {array} response.APIResponse
+// @Success 200 {array} response.TransactionListSwaggerResponse
 // @Success 500 {array} response.APIResponse
 // @Router /api/balance [get]
 func (h *BalanceHandler) GetAllBalances(c *gin.Context) {
@@ -29,5 +30,10 @@ func (h *BalanceHandler) GetAllBalances(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, balances, "Semua data berhasil diambil!")
+	var responseData []response.BalanceResponse
+	for _, t := range balances {
+		responseData = append(responseData, mapper.MapBalanceToDTO(t))
+	}
+
+	response.OK(c, responseData, "Semua data berhasil diambil!")
 }

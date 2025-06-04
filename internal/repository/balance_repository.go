@@ -9,6 +9,7 @@ type BalanceRepository interface {
 	GetAll() ([]domain.Balance, error)
 	Create(balance *domain.Balance) error
 	GetByID(id uint) (*domain.Balance, error)
+	GetByAccountID(id uint) (*domain.Balance, error)
 	Tambah(balance *domain.Balance) error
 	Kurang(balance *domain.Balance) error
 }
@@ -23,7 +24,9 @@ func NewBalanceRepository(db *gorm.DB) BalanceRepository {
 
 func (r *balanceRepository) GetAll() ([]domain.Balance, error) {
 	var balances []domain.Balance
-	err := r.db.Find(&balances).Error
+	err := r.db.
+		Preload("Account").
+		Find(&balances).Error
 	return balances, err
 }
 
@@ -43,4 +46,10 @@ func (r *balanceRepository) Tambah(balance *domain.Balance) error {
 
 func (r *balanceRepository) Kurang(balance *domain.Balance) error {
 	return r.db.Save(balance).Error
+}
+
+func (r *balanceRepository) GetByAccountID(id uint) (*domain.Balance, error) {
+	var balance domain.Balance
+	err := r.db.Where("account_id = ?", id).First(&balance).Error
+	return &balance, err
 }

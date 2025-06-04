@@ -11,7 +11,7 @@ type Transaction struct {
 	CategoryID      uint
 	Category        Category `gorm:"foreignKey:CategoryID"`
 	TargetAccountID *uint
-	TargetAccount   Account `gorm:"foreignKey:AccountID"`
+	TargetAccount   Account `gorm:"foreignKey:TargetAccountID"`
 	Amount          float64 `gorm:"type:decimal(15,2);not null"`
 	Descriptions    string  `gorm:"type:varchar(255)"`
 	UserID          uint

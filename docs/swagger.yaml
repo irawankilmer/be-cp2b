@@ -1,5 +1,26 @@
 basePath: /
 definitions:
+  dto.AccountDTO:
+    properties:
+      ID:
+        type: integer
+      Name:
+        type: string
+    type: object
+  dto.CategoryDTO:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  dto.UserDTO:
+    properties:
+      ID:
+        type: integer
+      Name:
+        type: string
+    type: object
   request.AccountRequest:
     properties:
       descriptions:
@@ -73,6 +94,46 @@ definitions:
       meta: {}
       status:
         type: string
+    type: object
+  response.TransactionListSwaggerResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/response.TransactionResponse'
+        type: array
+      message:
+        type: string
+    type: object
+  response.TransactionResponse:
+    properties:
+      Account:
+        $ref: '#/definitions/dto.AccountDTO'
+      AccountID:
+        type: integer
+      Amount:
+        type: number
+      Category:
+        $ref: '#/definitions/dto.CategoryDTO'
+      CategoryID:
+        type: integer
+      Date:
+        type: string
+      Descriptions:
+        type: string
+      ID:
+        type: integer
+      TargetAccount:
+        $ref: '#/definitions/dto.AccountDTO'
+      TargetAccountID:
+        type: integer
+      Type:
+        type: string
+      User:
+        $ref: '#/definitions/dto.UserDTO'
+      UserID:
+        type: integer
     type: object
 info:
   contact: {}
@@ -259,7 +320,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/response.APIResponse'
+              $ref: '#/definitions/response.TransactionListSwaggerResponse'
             type: array
         "500":
           description: Internal Server Error
@@ -431,7 +492,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/response.APIResponse'
+              $ref: '#/definitions/response.TransactionListSwaggerResponse'
             type: array
         "500":
           description: Internal Server Error
@@ -460,7 +521,7 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/response.APIResponse'
+            $ref: '#/definitions/response.TransactionListSwaggerResponse'
         "400":
           description: Bad Request
           schema:
@@ -511,7 +572,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.APIResponse'
+            $ref: '#/definitions/response.TransactionListSwaggerResponse'
         "404":
           description: Not Found
           schema:

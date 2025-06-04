@@ -41,7 +41,12 @@ func (r *transactionRepository) GetAll() ([]domain.Transaction, error) {
 
 func (r *transactionRepository) GetByID(id uint) (*domain.Transaction, error) {
 	var transaction domain.Transaction
-	err := r.db.First(&transaction, id).Error
+	err := r.db.
+		Preload("Account").
+		Preload("Category").
+		Preload("TargetAccount").
+		Preload("User").
+		First(&transaction, id).Error
 	return &transaction, err
 }
 
