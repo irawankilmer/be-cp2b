@@ -6,7 +6,7 @@ import (
 )
 
 type CategoryRepository interface {
-	GetAll() ([]domain.Category, error)
+	GetAll(limit, offset int) ([]domain.Category, int64, error)
 	Create(category *domain.Category) error
 	GetByID(id uint) (*domain.Category, error)
 	Update(category *domain.Category) error
@@ -21,10 +21,17 @@ func NewCategoryRepository(db *gorm.DB) CategoryRepository {
 	return &categoryRepository{db}
 }
 
-func (r *categoryRepository) GetAll() ([]domain.Category, error) {
+func (r *categoryRepository) GetAll(limit, offset int) ([]domain.Category, int64, error) {
 	var categories []domain.Category
-	err := r.db.Find(&categories).Error
-	return categories, err
+	var total int64
+
+	r.db.Model(&domain.Category{}).Count(&total)
+	err := r.db.
+		Limit(limit).
+		Offset(offset).
+		Find(&categories).Error
+
+	return categories, total, err
 }
 
 func (r *categoryRepository) Create(category *domain.Category) error {

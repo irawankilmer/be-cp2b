@@ -27,7 +27,12 @@ func NewAccountHandler(u usecase.AccountUsecase) *AccountHandler {
 // @Success 500 {array} response.APIResponse
 // @Router /api/account [get]
 func (h *AccountHandler) GetAllAccounts(c *gin.Context) {
-	accounts, err := h.usecase.GetAll()
+	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
+	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "10"))
+	offset := (page - 1) * limit
+
+	accounts, total, err := h.usecase.GetAll(limit, offset)
+
 	if err != nil {
 		response.ServerError(c, err.Error())
 		return
@@ -38,7 +43,13 @@ func (h *AccountHandler) GetAllAccounts(c *gin.Context) {
 		responseData = append(responseData, mapper.MapAccountToDTO(t))
 	}
 
-	response.OK(c, responseData, "Semua data berhasil diambil!")
+	meta := map[string]interface{}{
+		"total": total,
+		"page":  page,
+		"limit": limit,
+	}
+
+	response.OK(c, responseData, meta)
 }
 
 // CreateAccount godoc

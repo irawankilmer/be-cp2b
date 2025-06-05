@@ -9,7 +9,7 @@ import (
 )
 
 type TransactionUsecase interface {
-	GetAll() ([]domain.Transaction, error)
+	GetAll(limit, offset int) ([]domain.Transaction, int64, error)
 	Create(req request.TransactionRequest, userID uint) (*domain.Transaction, error)
 	GetByID(id uint) (*domain.Transaction, error)
 	Update(req request.TransactionRequest, id uint) (*domain.Transaction, error)
@@ -31,8 +31,8 @@ func NewTransactionUsecase(
 	}
 }
 
-func (u *transactionUsecase) GetAll() ([]domain.Transaction, error) {
-	return u.repo.GetAll()
+func (u *transactionUsecase) GetAll(limit, offset int) ([]domain.Transaction, int64, error) {
+	return u.repo.GetAll(limit, offset)
 }
 
 func (u *transactionUsecase) Create(req request.TransactionRequest, userID uint) (*domain.Transaction, error) {

@@ -6,7 +6,7 @@ import (
 )
 
 type BalanceRepository interface {
-	GetAll() ([]domain.Balance, error)
+	GetAll(limit, offset int) ([]domain.Balance, int64, error)
 	Create(balance *domain.Balance) error
 	GetByID(id uint) (*domain.Balance, error)
 	GetByAccountID(id uint) (*domain.Balance, error)
@@ -22,12 +22,18 @@ func NewBalanceRepository(db *gorm.DB) BalanceRepository {
 	return &balanceRepository{db}
 }
 
-func (r *balanceRepository) GetAll() ([]domain.Balance, error) {
+func (r *balanceRepository) GetAll(limit, offset int) ([]domain.Balance, int64, error) {
 	var balances []domain.Balance
+	var total int64
+
+	r.db.Model(&domain.Account{}).Count(&total)
 	err := r.db.
 		Preload("Account").
+		Limit(limit).
+		Offset(offset).
 		Find(&balances).Error
-	return balances, err
+
+	return balances, total, err
 }
 
 func (r *balanceRepository) Create(balance *domain.Balance) error {

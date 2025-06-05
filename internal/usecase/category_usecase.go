@@ -7,7 +7,7 @@ import (
 )
 
 type CategoryUsecase interface {
-	GetAll() ([]domain.Category, error)
+	GetAll(limit, offset int) ([]domain.Category, int64, error)
 	Create(req request.CategoryRequest) (*domain.Category, error)
 	GetByID(id uint) (*domain.Category, error)
 	Update(id uint, req request.CategoryRequest) (*domain.Category, error)
@@ -22,8 +22,8 @@ func NewCategoryUsecase(r repository.CategoryRepository) CategoryUsecase {
 	return &categoryUsecase{r}
 }
 
-func (u *categoryUsecase) GetAll() ([]domain.Category, error) {
-	return u.repo.GetAll()
+func (u *categoryUsecase) GetAll(limit, offset int) ([]domain.Category, int64, error) {
+	return u.repo.GetAll(limit, offset)
 }
 
 func (u *categoryUsecase) Create(req request.CategoryRequest) (*domain.Category, error) {
@@ -68,6 +68,6 @@ func (u *categoryUsecase) Delete(id uint) error {
 	if err != nil {
 		return err
 	}
-	
+
 	return u.repo.Delete(category)
 }

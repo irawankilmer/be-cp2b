@@ -38,7 +38,7 @@ func (h *AuthHandler) Login(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, token, "Selamat, Anda berhasil login!")
+	response.OK(c, token, "")
 }
 
 // Logout godoc

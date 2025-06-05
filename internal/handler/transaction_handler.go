@@ -27,7 +27,11 @@ func NewTransactionHandler(u usecase.TransactionUsecase) *TransactionHandler {
 // @Success 500 {array} response.APIResponse
 // @Router /api/transaction [get]
 func (h *TransactionHandler) GetAllTransactions(c *gin.Context) {
-	transactions, err := h.usecase.GetAll()
+	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
+	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "10"))
+	offset := (page - 1) * limit
+
+	transactions, total, err := h.usecase.GetAll(limit, offset)
 	if err != nil {
 		response.ServerError(c, err.Error())
 		return
@@ -38,7 +42,13 @@ func (h *TransactionHandler) GetAllTransactions(c *gin.Context) {
 		responseData = append(responseData, mapper.MapTransactionToDTO(t))
 	}
 
-	response.OK(c, responseData, "Query OK!")
+	meta := map[string]interface{}{
+		"total": total,
+		"page":  page,
+		"limit": limit,
+	}
+
+	response.OK(c, responseData, meta)
 }
 
 // CreateTransaction godoc

@@ -7,7 +7,7 @@ import (
 )
 
 type AccountUsecase interface {
-	GetAll() ([]domain.Account, error)
+	GetAll(limit, offset int) ([]domain.Account, int64, error)
 	Create(req request.AccountRequest) (*domain.Account, error)
 	GetByID(id uint) (*domain.Account, error)
 	Update(id uint, req request.AccountRequest) (*domain.Account, error)
@@ -29,8 +29,8 @@ func NewAccountUsecase(
 	}
 }
 
-func (u *accountUsecase) GetAll() ([]domain.Account, error) {
-	return u.repo.GetAll()
+func (u *accountUsecase) GetAll(limit, offset int) ([]domain.Account, int64, error) {
+	return u.repo.GetAll(limit, offset)
 }
 
 func (u *accountUsecase) Create(req request.AccountRequest) (*domain.Account, error) {

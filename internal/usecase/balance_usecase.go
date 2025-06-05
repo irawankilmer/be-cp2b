@@ -9,7 +9,7 @@ import (
 )
 
 type BalanceUsecase interface {
-	GetAll() ([]domain.Balance, error)
+	GetAll(limit, offset int) ([]domain.Balance, int64, error)
 	Create(req request.BalanceRequest, accountID uint) (*domain.Balance, error)
 	Tambah(tx *gorm.DB, accountID uint, amount float64) (*domain.Balance, error)
 	Kurang(tx *gorm.DB, accountID uint, amount float64) (*domain.Balance, error)
@@ -23,8 +23,8 @@ func NewBalanceUsecase(r repository.BalanceRepository) BalanceUsecase {
 	return &balanceUsecase{r}
 }
 
-func (u *balanceUsecase) GetAll() ([]domain.Balance, error) {
-	return u.repo.GetAll()
+func (u *balanceUsecase) GetAll(limit, offset int) ([]domain.Balance, int64, error) {
+	return u.repo.GetAll(limit, offset)
 }
 
 func (u *balanceUsecase) Create(req request.BalanceRequest, accountID uint) (*domain.Balance, error) {

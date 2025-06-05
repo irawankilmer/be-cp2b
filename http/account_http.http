@@ -1,0 +1,5 @@
+### GET request to example server
+GET http://localhost:8080/api/account?page=2&limit=1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDkxODk3MTgsImlhdCI6MTc0OTEwMzMxOCwiaXNzIjoiY3AyYiIsInN1YiI6MSwidG9rZW5fdmVyc2lvbiI6IjYwNTUyMmRhLTdiOGItNDZiYi04MGFjLTljZDRlMzhlZTUxZCJ9.8dQigEwMlFY5TafjukTSs8iSeGBokVp6cKHGNSzIzPw
+
+###

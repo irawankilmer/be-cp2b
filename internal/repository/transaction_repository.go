@@ -6,7 +6,7 @@ import (
 )
 
 type TransactionRepository interface {
-	GetAll() ([]domain.Transaction, error)
+	GetAll(limit, offset int) ([]domain.Transaction, int64, error)
 	Create(transaction *domain.Transaction) error
 	GetByID(id uint) (*domain.Transaction, error)
 	Update(transaction *domain.Transaction) error
@@ -26,17 +26,22 @@ func (r *transactionRepository) Create(transaction *domain.Transaction) error {
 	return r.db.Create(transaction).Error
 }
 
-func (r *transactionRepository) GetAll() ([]domain.Transaction, error) {
+func (r *transactionRepository) GetAll(limit, offset int) ([]domain.Transaction, int64, error) {
 	var transactions []domain.Transaction
+	var total int64
+
+	r.db.Model(&domain.Transaction{}).Count(&total)
 
 	err := r.db.
 		Preload("Account").
 		Preload("Category").
 		Preload("TargetAccount").
 		Preload("User").
+		Limit(limit).
+		Offset(offset).
 		Find(&transactions).Error
 
-	return transactions, err
+	return transactions, total, err
 }
 
 func (r *transactionRepository) GetByID(id uint) (*domain.Transaction, error) {

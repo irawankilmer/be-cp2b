@@ -14,12 +14,13 @@ type APIResponse struct {
 	Meta    interface{} `json:"meta,omitempty"`
 }
 
-func OK(c *gin.Context, data interface{}, message string) {
+func OK(c *gin.Context, data interface{}, meta interface{}) {
 	c.JSON(http.StatusOK, APIResponse{
 		Code:    http.StatusOK,
 		Status:  "success",
-		Message: message,
+		Message: "Query OK!",
 		Data:    data,
+		Meta:    meta,
 	})
 }
 

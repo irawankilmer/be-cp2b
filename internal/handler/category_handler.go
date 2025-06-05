@@ -27,7 +27,11 @@ func NewCategoryHandler(u usecase.CategoryUsecase) *CategoryHandler {
 // @Success 500 {array} response.APIResponse
 // @Router /api/category [get]
 func (h *CategoryHandler) GetAllCategories(c *gin.Context) {
-	categories, err := h.usecase.GetAll()
+	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
+	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "10"))
+	offset := (page - 1) * limit
+
+	categories, total, err := h.usecase.GetAll(limit, offset)
 	if err != nil {
 		response.ServerError(c, err.Error())
 		return
@@ -38,7 +42,13 @@ func (h *CategoryHandler) GetAllCategories(c *gin.Context) {
 		responseData = append(responseData, mapper.MapCategoryToDTO(t))
 	}
 
-	response.OK(c, responseData, "Berhasil ambil semua data!")
+	meta := map[string]interface{}{
+		"total": total,
+		"page":  page,
+		"limit": limit,
+	}
+
+	response.OK(c, responseData, meta)
 }
 
 // CreateCategory godoc
