@@ -14,6 +14,7 @@ type TransactionUsecase interface {
 	GetByID(id uint) (*domain.Transaction, error)
 	Update(req request.TransactionRequest, id uint) (*domain.Transaction, error)
 	Delete(id uint) error
+	DailyReport(date time.Time, limit, offset int) ([]domain.Transaction, int64, error)
 }
 
 type transactionUsecase struct {
@@ -133,4 +134,8 @@ func (u *transactionUsecase) Delete(id uint) error {
 	}
 
 	return u.repo.Delete(transaction)
+}
+
+func (u *transactionUsecase) DailyReport(date time.Time, limit, offset int) ([]domain.Transaction, int64, error) {
+	return u.repo.DailyReport(date, limit, offset)
 }

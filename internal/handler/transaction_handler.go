@@ -8,6 +8,7 @@ import (
 	"be-cp2b/pkg/utils"
 	"github.com/gin-gonic/gin"
 	"strconv"
+	"time"
 )
 
 type TransactionHandler struct {
@@ -147,4 +148,51 @@ func (h *TransactionHandler) DeleteTransaction(c *gin.Context) {
 	}
 
 	response.NoContent(c)
+}
+
+// GetReportDaily godoc
+// @Summary Get report daily
+// @Tags Reports
+// @Security BearerAuth
+// @Produce json
+// @Param date path string false "Date (format: dd-mm-yyyy)"
+// @Success 200 {array} response.TransactionListSwaggerResponse
+// @Success 500 {array} response.APIResponse
+// @Router /api/report/daily/{date} [get]
+func (h *TransactionHandler) GetReportDaily(c *gin.Context) {
+	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
+	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "10"))
+	offset := (page - 1) * limit
+
+	dateParam := c.Param("date")
+	var date time.Time
+	var err error
+	if dateParam == "" {
+		date = time.Now()
+	} else {
+		date, err = time.Parse("02-01-2006", dateParam)
+		if err != nil {
+			response.BadRequest(c, err.Error(), "Format tanggal harus dd-mm-yyy, contoh: 02-12-2025")
+			return
+		}
+	}
+
+	transactions, total, err := h.usecase.DailyReport(date, limit, offset)
+	if err != nil {
+		response.ServerError(c, err.Error())
+		return
+	}
+
+	var responseData []response.TransactionResponse
+	for _, t := range transactions {
+		responseData = append(responseData, mapper.MapTransactionToDTO(t))
+	}
+
+	meta := map[string]interface{}{
+		"total": total,
+		"page":  page,
+		"limit": limit,
+	}
+
+	response.OK(c, responseData, meta)
 }

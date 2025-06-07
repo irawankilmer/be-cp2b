@@ -48,4 +48,7 @@ func InitRouter(r *gin.Engine, app *internal.AppContainer) {
 	auth.DELETE("/transaction/:id", transactionHandler.DeleteTransaction)
 
 	auth.GET("/balance", balanceHandler.GetAllBalances)
+
+	auth.GET("/report/daily", transactionHandler.GetReportDaily)
+	auth.GET("/report/daily/:date", transactionHandler.GetReportDaily)
 }

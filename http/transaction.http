@@ -1,0 +1,5 @@
+GET http://localhost:8080/api/report/daily
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDkzOTIxOTAsImlhdCI6MTc0OTMwNTc5MCwiaXNzIjoiY3AyYiIsInN1YiI6MSwidG9rZW5fdmVyc2lvbiI6Ijc4N2YwN2Q5LTRmOGItNGQ1OS05NjgzLTMzMTA3ZDZjOGY5MSJ9.xY6mPtkTys_6zx7oP1O0r-oheTvpQdzB-x60mh6rtKk
+
+
+###

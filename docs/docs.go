@@ -564,6 +564,50 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/report/daily/{date}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Get report daily",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Date (format: dd-mm-yyyy)",
+                        "name": "date",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/response.TransactionListSwaggerResponse"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/response.APIResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/transaction": {
             "get": {
                 "security": [

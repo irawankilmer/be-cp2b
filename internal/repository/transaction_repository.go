@@ -3,6 +3,7 @@ package repository
 import (
 	"be-cp2b/internal/domain"
 	"gorm.io/gorm"
+	"time"
 )
 
 type TransactionRepository interface {
@@ -12,6 +13,7 @@ type TransactionRepository interface {
 	Update(transaction *domain.Transaction) error
 	Delete(transaction *domain.Transaction) error
 	GetDB() *gorm.DB
+	DailyReport(date time.Time, limit, offset int) ([]domain.Transaction, int64, error)
 }
 
 type transactionRepository struct {
@@ -65,4 +67,25 @@ func (r *transactionRepository) Delete(transaction *domain.Transaction) error {
 
 func (r *transactionRepository) GetDB() *gorm.DB {
 	return r.db
+}
+
+func (r *transactionRepository) DailyReport(date time.Time, limit, offset int) ([]domain.Transaction, int64, error) {
+	var transaction []domain.Transaction
+	var total int64
+
+	r.db.Model(&domain.Transaction{}).
+		Where("date = ?", date.Format("2006-01-02")).
+		Count(&total)
+
+	err := r.db.
+		Preload("Account").
+		Preload("Category").
+		Preload("TargetAccount").
+		Preload("User").
+		Where("date = ?", date.Format("2006-01-02")).
+		Limit(limit).
+		Offset(offset).
+		Find(&transaction).Error
+
+	return transaction, total, err
 }

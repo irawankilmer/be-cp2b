@@ -558,6 +558,33 @@ paths:
       summary: Logout user
       tags:
       - Auth
+  /api/report/daily/{date}:
+    get:
+      parameters:
+      - description: 'Date (format: dd-mm-yyyy)'
+        in: path
+        name: date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/response.TransactionListSwaggerResponse'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            items:
+              $ref: '#/definitions/response.APIResponse'
+            type: array
+      security:
+      - BearerAuth: []
+      summary: Get report daily
+      tags:
+      - Reports
   /api/transaction:
     get:
       produces:
